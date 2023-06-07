@@ -61,17 +61,6 @@ int main(){
     printf("'third' rotated by x:45 y:45 z:45 : \t\t");
     vec_print(vec_rotate3d(third, 45, 45, 45));
     
-    // basicly:
-    // 1st y:45
-    // 2nd x:45
-    // 3th z:45      I think its a bug somethere
-    printf("'third' rotated by y:45 x:45 z:45 :\n");
-    Vec y = vec_rotate3d(third, 0, 90, 0);
-    vec_print(y);
-    y = vec_rotate3d(y, 90, 0, 0);
-    vec_print(y);
-    vec_print(vec_rotate3d(y, 0, 0, 90));
-
     printf("'third' rotated by x:0 y:0 z:0 : \t\t");
     vec_print(vec_rotate3d(third, 0, 0, 0));
 
