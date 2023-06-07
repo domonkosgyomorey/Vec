@@ -4,9 +4,9 @@
 
 int main(){
     Vec a = vec_alloc(3);
-    vec_put(a, (float[]){1, 2, 3}, 3);
+    vec_put(a, (double[]){1, 2, 3}, 3);
     Vec b = vec_alloc(3);
-    vec_put(b, (float[]){1, 2, 3}, 3);
+    vec_put(b, (double[]){1, 2, 3}, 3);
 
     printf("Vec 'a': ");
     vec_print(a);
@@ -27,7 +27,7 @@ int main(){
     vec_print(vec_mul(a, 10));
     
     Vec e = vec_alloc(2);
-    vec_put(e, (float[]){1, 0}, 2);
+    vec_put(e, (double[]){1, 0}, 2);
     
     printf("Vec 'e': ");
     vec_print(e);
@@ -44,7 +44,7 @@ int main(){
     vec_print(rot_e45);
 
     Vec third = vec_alloc(3);
-    vec_put(third, (float[]){1, 0, 0}, 3);
+    vec_put(third, (double[]){1, 0, 0}, 3);
     printf("'third' vec: ");
     vec_print(third);
 
@@ -71,16 +71,9 @@ int main(){
     y = vec_rotate3d(y, 90, 0, 0);
     vec_print(y);
     vec_print(vec_rotate3d(y, 0, 0, 90));
-    //vec_print(vec_rotate3d(vec_rotate3d(vec_rotate3d(third, 0, 90, 0), 90, 0, 0), 0, 0, 90));
 
     printf("'third' rotated by x:0 y:0 z:0 : \t\t");
     vec_print(vec_rotate3d(third, 0, 0, 0));
-    
-    vec_print(third);
-    printf("'third' rotated by y:90 x:90 z:90 :\n");
-    //y = vec_rotate3d_y(third, 90);
-    //vec_print(y);
-   // y = vec_rotate3d_x(y, 90);
-    //vec_print(y);
-    vec_print(vec_rotate3d_z(third, 90));
+
+    return 0;
 }
