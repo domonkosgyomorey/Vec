@@ -1,2 +1,2 @@
 all:
-	gcc -o main.exe main.c -lm
+	gcc -O3 -Wall -Wextra -o main.exe main.c -lm

@@ -188,6 +188,12 @@ Vec vec_rotate2d_ex(Vec vec, double x, double y, double deg){
 
 Vec vec_rotate3d(Vec vec, double xdeg, double ydeg, double zdeg){
     VEC_ASSERT(vec.dim==3 && "The vector isnt 3D");
+    Vec xr = vec_rotate3d_x(vec, xdeg);
+    vec_print(xr);
+    xr = vec_rotate3d_y(xr, ydeg);
+    vec_print(xr);
+    xr = vec_rotate3d_z(xr, zdeg);
+    vec_print(xr);
     return vec_rotate3d_z(vec_rotate3d_y(vec_rotate3d_x(vec, xdeg), ydeg), zdeg);
 }
 
@@ -197,7 +203,8 @@ Vec vec_rotate3d_x(Vec vec, double xdeg){
     Vec result = vec_alloc(3);
     
     double len = vec_len(vec);
-    
+    vec = vec_normalize(vec);
+
     double xrad = DEG2RAD(xdeg);
     double sinx = VEC_SIN(xrad);
     double cosx = VEC_COS(xrad);
@@ -215,7 +222,8 @@ Vec vec_rotate3d_y(Vec vec, double ydeg){
     Vec result = vec_alloc(3);
     
     double len = vec_len(vec);
-    
+    vec = vec_normalize(vec); 
+
     double yrad = DEG2RAD(ydeg);
     
     double siny = VEC_SIN(yrad);
@@ -232,9 +240,9 @@ Vec vec_rotate3d_z(Vec vec, double zdeg){
     
     Vec result = vec_alloc(3);
     
-
     double len = vec_len(vec);
-    
+    vec = vec_normalize(vec);
+
     double zrad = DEG2RAD(zdeg);
     double sinz = VEC_SIN(zrad);
     double cosz = VEC_COS(zrad);
