@@ -64,5 +64,11 @@ int main(){
     printf("'third' rotated by x:0 y:0 z:0 : \t\t");
     vec_print(vec_rotate3d(third, 0, 0, 0));
 
+    vec_serialize(third, "third.vec");
+    Vec vec = vec_deserialize("third.vec");
+    printf("The original 'third': ");
+    vec_print(third);
+    printf("The deserialized 'third': ");
+    vec_print(vec);
     return 0;
 }

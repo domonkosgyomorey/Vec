@@ -36,9 +36,42 @@
 #define VEC_COS cos
 #endif
 
+#ifndef VEC_FILE
+#include <stdio.h>
+#define VEC_FILE FILE
+#endif
+
+#ifndef VEC_FOPEN
+#include <stdio.h>
+#define VEC_FOPEN fopen
+#endif
+
+#ifndef VEC_FWRITE
+#include <stdio.h>
+#define VEC_FWRITE fwrite
+#endif
+
+#ifndef VEC_FREAD
+#include <stdio.h>
+#define VEC_FREAD fread
+#endif
+
+#ifndef VEC_FCLOSE
+#include <stdio.h>
+#define VEC_FCLOSE fclose
+#endif
+
+#ifndef VEC_STRNCMP
+#include <string.h>
+#define VEC_STRNCMP strncmp
+#endif
+
 #define ll long long int
 #define PI 3.141592653589793
 #define DEG2RAD(D) (D)*(PI/180.0)
+#define VEC_MAGIC "VEC"
+#define VEC_MAGIC_SIZE sizeof(VEC_MAGIC)
+#define VEC_MAGIC_LEN sizeof(VEC_MAGIC)/sizeof(char)
 
 typedef struct Vec{
     ll dim;
@@ -65,6 +98,8 @@ Vec vec_rotate3d(Vec vec, double xdeg, double ydeg, double zdeg);
 Vec vec_rotate3d_x(Vec vec, double xdeg);
 Vec vec_rotate3d_y(Vec vec, double ydeg);
 Vec vec_rotate3d_z(Vec vec, double zdeg);
+void vec_serialize(Vec vec, const char* filename);
+Vec vec_deserialize(const char* filename);
 
 #ifdef VEC_IMPL
 
@@ -196,12 +231,6 @@ Vec vec_rotate2d_ex(Vec vec, double x, double y, double deg){
 
 Vec vec_rotate3d(Vec vec, double xdeg, double ydeg, double zdeg){
     VEC_ASSERT(vec.dim==3 && "The vector isnt 3D");
-    Vec xr = vec_rotate3d_x(vec, xdeg);
-    vec_print(xr);
-    xr = vec_rotate3d_y(xr, ydeg);
-    vec_print(xr);
-    xr = vec_rotate3d_z(xr, zdeg);
-    vec_print(xr);
     return vec_rotate3d_z(vec_rotate3d_y(vec_rotate3d_x(vec, xdeg), ydeg), zdeg);
 }
 
@@ -260,6 +289,31 @@ Vec vec_rotate3d_z(Vec vec, double zdeg){
     result.data[2] = vec.data[2];
     
     return vec_mul(result, len);
+}
+
+void vec_serialize(Vec vec, const char* filename){
+    FILE* stream = VEC_FOPEN(filename, "wb");
+    ll writed = VEC_FWRITE(VEC_MAGIC, sizeof(char), VEC_MAGIC_LEN, stream);
+    VEC_ASSERT(writed==VEC_MAGIC_LEN && "Failed to write into file");
+    writed = VEC_FWRITE((ll[]){vec.dim}, sizeof(ll), 1, stream);
+    VEC_ASSERT(writed==1 && "Failed to write into file");
+    writed = VEC_FWRITE(vec.data, sizeof(vec.data[0]), vec.dim, stream);
+    VEC_ASSERT(writed==vec.dim && "Failed to write into file");
+    VEC_FCLOSE(stream);
+}
+
+Vec vec_deserialize(const char* filename){
+    FILE* stream = VEC_FOPEN(filename, "rb");
+    char magic[VEC_MAGIC_LEN] = {0};
+    VEC_FREAD(&magic, VEC_MAGIC_SIZE, 1, stream);
+    VEC_ASSERT(VEC_STRNCMP(magic, VEC_MAGIC, VEC_MAGIC_LEN)==0 && "Incompatible file type");
+    ll dim;
+    VEC_FREAD(&dim, sizeof(ll), 1, stream);
+    VEC_ASSERT(dim>0 && "Cannot create a vector with dim<=0");
+    Vec result = vec_alloc(dim);
+    VEC_FREAD(result.data, sizeof(double), result.dim, stream);
+    VEC_FCLOSE(stream);
+    return result; 
 }
 
 #endif // VEC_IMPL
