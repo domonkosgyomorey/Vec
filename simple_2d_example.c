@@ -1,7 +1,3 @@
-# A header only vector library
-
-## A simple example with 2D vectors
-```c
 #define VEC_IMPL
 #include "vec.h"
 
@@ -26,17 +22,3 @@ int main(){
     vec_print(vec_rotate2d(a, 90));
     return 0;
 }
-```
-
-### Run the example
-```console
-make se
-./simple_2d_example.exe
-```
-
-
-## Compile and run
-```console
-make
-./main.exe
-```

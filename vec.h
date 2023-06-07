@@ -48,6 +48,7 @@ typedef struct Vec{
 Vec vec_alloc(ll dim);
 void vec_print(Vec vec);
 void vec_put(Vec vec, double* data, ll dim);
+Vec vec_map(Vec a, double (*map)(double));
 Vec vec_add(Vec a, Vec b);
 Vec vec_add_s(Vec vec, double scalar);
 Vec vec_sub(Vec a, Vec b);
@@ -64,7 +65,6 @@ Vec vec_rotate3d(Vec vec, double xdeg, double ydeg, double zdeg);
 Vec vec_rotate3d_x(Vec vec, double xdeg);
 Vec vec_rotate3d_y(Vec vec, double ydeg);
 Vec vec_rotate3d_z(Vec vec, double zdeg);
-Vec vec_quaternion_rot(Vec vec, double x, double y, double z, double deg);
 
 #ifdef VEC_IMPL
 
@@ -86,6 +86,14 @@ void vec_put(Vec vec, double* data, ll dim){
     for(ll i = 0; i < vec.dim; i++){
         vec.data[i] = data[i];
     }
+}
+
+Vec vec_map(Vec a, double (*map)(double)){
+    Vec result = vec_alloc(a.dim);
+    for(ll i = 0; i < a.dim; i++){
+        a.data[i] = map(a.data[i]);
+    }
+    return result;
 }
 
 Vec vec_add(Vec a, Vec b){
@@ -133,7 +141,7 @@ Vec vec_hamilton_prod(Vec a, Vec b){
 }
 
 double vec_dot(Vec a, Vec b){
-    VEC_ASSERT(a.dim==b.dim && "Doesnt match the dim of the two vector");
+    VEC_ASSERT(a.dim==b.dim && "The dimension of the two vector doesnt match");
     double result = 0; 
     for(ll i = 0; i < a.dim; i++){
         result += a.data[i]*b.data[i];
