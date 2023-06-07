@@ -19,6 +19,15 @@ int main(){
     printf("'a'×'b'=%lf\n", vec_cross(a, b));
     
     printf("rotate 'a' by 90: ");
-    vec_print(vec_rotate2d(a, 90));
+    
+    Vec rotated = vec_rotate2d(a, 90);
+    
+    printf("The original 'rot': ");
+    vec_print(rotated);
+
+    vec_serialize(rotated, "rot.vec");
+    printf("deserialized 'rot': ");
+    vec_print(vec_deserialize("rot.vec"));
+    
     return 0;
 }
