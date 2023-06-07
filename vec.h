@@ -111,7 +111,7 @@ Vec vec_alloc(ll dim){
 
 void vec_print(Vec vec){
     for(ll i = 0; i < vec.dim; i++){
-        VEC_PRINT("%.015lf\t", vec.data[i]);
+        VEC_PRINT("%.04lf\t", vec.data[i]);
     }
     VEC_PRINT("\n");
 }
@@ -293,12 +293,12 @@ Vec vec_rotate3d_z(Vec vec, double zdeg){
 
 void vec_serialize(Vec vec, const char* filename){
     FILE* stream = VEC_FOPEN(filename, "wb");
-    ll writed = VEC_FWRITE(VEC_MAGIC, sizeof(char), VEC_MAGIC_LEN, stream);
-    VEC_ASSERT(writed==VEC_MAGIC_LEN && "Failed to write into file");
-    writed = VEC_FWRITE((ll[]){vec.dim}, sizeof(ll), 1, stream);
-    VEC_ASSERT(writed==1 && "Failed to write into file");
-    writed = VEC_FWRITE(vec.data, sizeof(vec.data[0]), vec.dim, stream);
-    VEC_ASSERT(writed==vec.dim && "Failed to write into file");
+    ll written = VEC_FWRITE(VEC_MAGIC, sizeof(char), VEC_MAGIC_LEN, stream);
+    VEC_ASSERT(written==VEC_MAGIC_LEN && "Failed to write into file");
+    written = VEC_FWRITE((ll[]){vec.dim}, sizeof(ll), 1, stream);
+    VEC_ASSERT(written==1 && "Failed to write into file");
+    written = VEC_FWRITE(vec.data, sizeof(vec.data[0]), vec.dim, stream);
+    VEC_ASSERT(written==vec.dim && "Failed to write into file");
     VEC_FCLOSE(stream);
 }
 
