@@ -67,8 +67,8 @@
 #endif
 
 #define ll long long int
-#define PI 3.141592653589793
-#define DEG2RAD(D) (D)*(PI/180.0)
+#define VEC_PI 3.141592653589793
+#define VEC_DEG2RAD(D) (D)*(VEC_PI/180.0)
 #define VEC_MAGIC "VEC"
 #define VEC_MAGIC_SIZE sizeof(VEC_MAGIC)
 #define VEC_MAGIC_LEN sizeof(VEC_MAGIC)/sizeof(char)
@@ -211,8 +211,8 @@ Vec vec_rotate2d(Vec vec, double deg){
     VEC_ASSERT(vec.dim==2 && "The vector isnt 2D");
     Vec result = vec_alloc(2);
     Vec im = vec_normalize(vec);
-    result.data[0] = (im.data[0]*VEC_COS(DEG2RAD(deg)))-(im.data[1]*VEC_SIN(DEG2RAD(deg)));
-    result.data[1] = (im.data[0]*VEC_SIN(DEG2RAD(deg)))+(im.data[1]*VEC_COS(DEG2RAD(deg)));
+    result.data[0] = (im.data[0]*VEC_COS(VEC_DEG2RAD(deg)))-(im.data[1]*VEC_SIN(VEC_DEG2RAD(deg)));
+    result.data[1] = (im.data[0]*VEC_SIN(VEC_DEG2RAD(deg)))+(im.data[1]*VEC_COS(VEC_DEG2RAD(deg)));
     return vec_mul(result, vec_len(vec));
 }
 
@@ -224,8 +224,8 @@ Vec vec_rotate2d_ex(Vec vec, double x, double y, double deg){
     vec = vec_sub(vec, p);
     Vec im = vec_normalize(vec);
     Vec result = vec_alloc(2);
-    result.data[0] = (im.data[0]*VEC_COS(DEG2RAD(deg)))-(im.data[1]*VEC_SIN(DEG2RAD(deg)));
-    result.data[1] = (im.data[0]*VEC_SIN(DEG2RAD(deg)))+(im.data[1]*VEC_COS(DEG2RAD(deg)));
+    result.data[0] = (im.data[0]*VEC_COS(VEC_DEG2RAD(deg)))-(im.data[1]*VEC_SIN(VEC_DEG2RAD(deg)));
+    result.data[1] = (im.data[0]*VEC_SIN(VEC_DEG2RAD(deg)))+(im.data[1]*VEC_COS(VEC_DEG2RAD(deg)));
     return vec_add(vec_mul(result, vec_len(vec)), p);
 }
 
@@ -242,7 +242,7 @@ Vec vec_rotate3d_x(Vec vec, double xdeg){
     double len = vec_len(vec);
     vec = vec_normalize(vec);
 
-    double xrad = DEG2RAD(xdeg);
+    double xrad = VEC_DEG2RAD(xdeg);
     double sinx = VEC_SIN(xrad);
     double cosx = VEC_COS(xrad);
     
@@ -261,7 +261,7 @@ Vec vec_rotate3d_y(Vec vec, double ydeg){
     double len = vec_len(vec);
     vec = vec_normalize(vec); 
 
-    double yrad = DEG2RAD(ydeg);
+    double yrad = VEC_DEG2RAD(ydeg);
     
     double siny = VEC_SIN(yrad);
     double cosy = VEC_COS(yrad);
@@ -280,7 +280,7 @@ Vec vec_rotate3d_z(Vec vec, double zdeg){
     double len = vec_len(vec);
     vec = vec_normalize(vec);
 
-    double zrad = DEG2RAD(zdeg);
+    double zrad = VEC_DEG2RAD(zdeg);
     double sinz = VEC_SIN(zrad);
     double cosz = VEC_COS(zrad);
     
